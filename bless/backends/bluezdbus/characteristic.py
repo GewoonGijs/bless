@@ -31,6 +31,7 @@ class BlessGATTCharacteristicBlueZDBus(
         properties: GATTCharacteristicProperties,
         permissions: GATTAttributePermissions,
         value: Optional[bytearray],
+        max_write_without_response_size: int,
     ):
         """
         Instantiates a new GATT Characteristic but is not yet assigned to any
@@ -49,7 +50,7 @@ class BlessGATTCharacteristicBlueZDBus(
             The binary value of the characteristic
         """
         value = value if value is not None else bytearray(b"")
-        super().__init__(uuid, properties, permissions, value)
+        super().__init__(uuid, properties, permissions, value, max_write_without_response_size)
         self.value = value
 
     async def init(self, service: "BlessGATTServiceBlueZDBus"):
@@ -72,7 +73,7 @@ class BlessGATTCharacteristicBlueZDBus(
         # Add a Bleak Characteristic properties
         self.gatt = gatt_char
         super(BlessGATTCharacteristic, self).__init__(
-            dict_obj, gatt_char.path, service.uuid, 0
+            dict_obj, gatt_char.path, service.uuid, 0, 0x200
         )
 
     @property

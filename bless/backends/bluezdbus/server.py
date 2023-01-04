@@ -175,7 +175,7 @@ class BlessServerBlueZDBus(BaseBlessServer):
         await self.setup_task
         service: BlessGATTServiceBlueZDBus = self.services[str(UUID(service_uuid))]
         characteristic: BlessGATTCharacteristicBlueZDBus = (
-            BlessGATTCharacteristicBlueZDBus(char_uuid, properties, permissions, value)
+            BlessGATTCharacteristicBlueZDBus(char_uuid, properties, permissions, value, 0x200)
         )
         await characteristic.init(service)
 

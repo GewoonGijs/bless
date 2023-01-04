@@ -41,7 +41,8 @@ class BlessGATTCharacteristic(BleakGATTCharacteristic):
         uuid: Union[str, UUID],
         properties: GATTCharacteristicProperties,
         permissions: GATTAttributePermissions,
-        value: Optional[bytearray]
+        value: Optional[bytearray],
+        max_write_without_response_size: int
     ):
         """
         Instantiates a new GATT Characteristic but is not yet assigned to any
@@ -58,6 +59,10 @@ class BlessGATTCharacteristic(BleakGATTCharacteristic):
             Permissions that define the protection levels of the properties
         value : Optional[bytearray]
             The binary value of the characteristic
+        max_write_without_response_size: int
+            The maximum size in bytes that can be written to the
+            characteristic in a single write without response command.
+            Added because the bleak library added this parameter in v0.16.0
         """
         if type(uuid) is str:
             uuid_str: str = cast(str, uuid)
@@ -66,6 +71,7 @@ class BlessGATTCharacteristic(BleakGATTCharacteristic):
         self._properties: GATTCharacteristicProperties = properties
         self._permissions: GATTAttributePermissions = permissions
         self._initial_value: Optional[bytearray] = value
+        self._max_write_without_response_size = max_write_without_response_size
 
     def __str__(self):
         """
